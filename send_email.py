@@ -7,6 +7,10 @@ from oauth2client.file import Storage
 
 from oauth2client import tools
 
+import base64
+from email.mime.text import MIMEText
+from email.mime.audio import MIMEAudio
+
 import httplib2
 try:
     import argparse
