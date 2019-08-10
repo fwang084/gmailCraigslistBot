@@ -10,6 +10,9 @@ from oauth2client import tools
 import base64
 from email.mime.text import MIMEText
 from email.mime.audio import MIMEAudio
+from email.mime.image import MIMEImage
+from email.mime.base import MIMEBase
+import mimetypes
 
 import httplib2
 try:
