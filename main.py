@@ -14,7 +14,7 @@ try:
 except ImportError:
     flags = None
 import auth
-hi = 2
+
 def get_labels():
     results = service.users().labels().list(userId='me').execute()
     labels = results.get('labels', [])
