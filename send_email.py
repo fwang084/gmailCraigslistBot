@@ -4,7 +4,7 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
-
+from googleapiclient.errors import HttpError
 from oauth2client import tools
 
 import base64
@@ -30,3 +30,11 @@ class send_email:
         message['from'] = sender
         message['subject'] = subject
         return {'rw': base64.urlsafe_b64encode(message.as_bytes())}
+    def send_message(self, service, user_id, message):
+        try:
+            message = (service.users().messages().send(userId = user_id, body = message)
+                       .execute())
+            print('Message Id: %s' % message['id'])
+            return message
+        except HttpError as error:
+            print ('An error occurred: %s' % error)
