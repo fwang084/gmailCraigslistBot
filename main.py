@@ -35,4 +35,8 @@ credentials = authInst.get_credentials()
 http = credentials.authorize(httplib2.Http())
 service = discovery.build('gmail', 'v1', http=http)
 
-get_labels()
+import send_email
+
+sendInstance = send_email.send_email(service)
+message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Test', 'Hello!')
+sendInstance.send_message('')
