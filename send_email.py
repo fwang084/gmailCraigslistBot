@@ -30,9 +30,9 @@ class send_email:
         message['from'] = sender
         message['subject'] = subject
         return {'rw': base64.urlsafe_b64encode(message.as_bytes())}
-    def send_message(self, service, user_id, message):
+    def send_message(self, user_id, message):
         try:
-            message = (service.users().messages().send(userId = user_id, body = message)
+            message = (self.service.users().messages().send(userId = user_id, body = message)
                        .execute())
             print('Message Id: %s' % message['id'])
             return message
