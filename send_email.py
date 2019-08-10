@@ -6,6 +6,7 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from googleapiclient.errors import HttpError
 from oauth2client import tools
+import json
 
 import base64
 from email.mime.text import MIMEText
@@ -29,11 +30,11 @@ class send_email:
         message['to'] = to
         message['from'] = sender
         message['subject'] = subject
-        return {'rw': base64.urlsafe_b64encode(message.as_bytes())}
+        return {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
     def send_message(self, user_id, message):
         try:
-            message = (self.service.users().messages().send(userId = user_id, body = message)
-                       .execute())
+            message = (self.service.users().messages().send(userId = user_id, body = message).execute())
             print('Message Id: %s' % message['id'])
             return message
         except HttpError as error:
