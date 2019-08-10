@@ -15,18 +15,7 @@ except ImportError:
     flags = None
 import auth
 
-def get_labels():
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
-
-    if not labels:
-        print('No labels found.')
-    else:
-        print('Labels:')
-        for label in labels:
-            print(label['name'])
-
-SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
+SCOPES = 'https://mail.google.com/'
 CLIENT_SECRET_FILE  = 'client_secret.json'
 APPLICATION_NAME = 'Gmail API Python'
 authInst = auth.auth(SCOPES, CLIENT_SECRET_FILE, APPLICATION_NAME)
@@ -38,5 +27,5 @@ service = discovery.build('gmail', 'v1', http=http)
 import send_email
 
 sendInstance = send_email.send_email(service)
-message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Test', 'Hello!')
-sendInstance.send_message('')
+message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Test', 'Hi')
+sendInstance.send_message('me', message)
