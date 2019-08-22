@@ -11,4 +11,4 @@ def get_price(post):
         return int(post.a.text[2:])
     return 99999999 #If there is no price listed, do not consider
 def get_description(post):
-    return post.find('a', class_='result-title hdrlnk').text.lower()
+    return post.find('a', class_='result-title hdrlnk').text
