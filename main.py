@@ -53,17 +53,17 @@ for x in range(repetitions):
     current_last_seen = posts[0]
     if iterations == 0:
         for x in range(len(posts)):
-            posts_to_email = util.check_post(posts_to_email, post[x], items_budgets)
+            posts_to_email = util.check_post(posts_to_email, posts[x], items_budgets)
     else:
         for x in range(len(posts)):
             if posts[x] == previous_last_seen:
                 break
-            posts_to_email = util.check_post(posts_to_email, post[x], items_budgets)
+            posts_to_email = util.check_post(posts_to_email, posts[x], items_budgets)
     util.send_posts(posts_to_email, sendInstance, url)
     util.check_for_failure(posts_to_email, sendInstance)
     previous_last_seen = current_last_seen
     iterations += 1
-    time.sleep(minutes_between_searches * 60)
+    time.sleep(60 * minutes_between_searches)
 message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Searching completed', 'Restart program to resume searching')
 sendInstance.send_message('me', message)
 
