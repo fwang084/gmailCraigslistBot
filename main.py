@@ -60,11 +60,10 @@ for x in range(repetitions):
             if posts[x] == previous_last_seen:
                 break
             posts_to_email = util.check_post(posts_to_email, posts[x], items_budgets)
-    util.send_posts(posts_to_email, sendInstance, url)
-    util.check_for_failure(posts_to_email, sendInstance)
+    util.send_posts(posts_to_email, sendInstance, url, recipient)
+    util.check_for_failure(posts_to_email, sendInstance, recipient)
     previous_last_seen = current_last_seen
     iterations += 1
     time.sleep(60 * minutes_between_searches)
-message = sendInstance.create_message('frankw084084@gmail.com', recipient, 'Searching completed', 'Restart program to resume searching')
-sendInstance.send_message('me', message)
+util.ending_email(sendInstance, recipient)
 
