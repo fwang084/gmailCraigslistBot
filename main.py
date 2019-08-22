@@ -36,7 +36,7 @@ sendInstance = send_email.send_email(service)
 #Getting user input for interested items
 items_budgets = {}
 while True:
-    item = input("Type an item you are interested in: ")
+    item = input("Type an item you are interested in: ").lower()
     budget = int(input("What is the most you are willing to spend on that item (in dollars)? "))
     items_budgets[item] = budget
     another = input("Enter Y to enter another item, N if you are done.")
