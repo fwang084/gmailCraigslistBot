@@ -40,9 +40,11 @@ while True:
     another = input("Enter Y to enter another item, N if you are done.")
     if another == "N":
         break
+duration = float(input("How many hours do you want to search for?"))
+halfHours = round(duration * 2)
 iterations = 0
 previous_last_seen = 0
-for x in range(5):
+for x in range(halfHours):
     posts = cl.get_posts_on_page(url)
     posts_to_email = []
     current_last_seen = posts[0]
@@ -63,7 +65,12 @@ for x in range(5):
     for post in posts_to_email:
         message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', cl.get_description(post), 'The price is ${price} at {url}'.format(price = cl.get_price(post), url = url))
         sendInstance.send_message('me', message)
+    if len(posts_to_email) == 0:
+        message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Nothing found', 'Will keep looking.')
+        sendInstance.send_message('me', message)
     previous_last_seen = current_last_seen
     iterations += 1
     time.sleep(5)
+message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Searching completed', 'Restart program to resume searching')
+sendInstance.send_message('me', message)
 
