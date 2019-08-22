@@ -29,6 +29,7 @@ import send_email
 import craigslist_get as cl
 import time
 url = 'https://sfbay.craigslist.org/search/eby/fua'
+minutes_between_searches = 30
 sendInstance = send_email.send_email(service)
 
 #Getting user input for interested items
@@ -66,11 +67,11 @@ for x in range(halfHours):
         message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', cl.get_description(post), 'The price is ${price} at {url}'.format(price = cl.get_price(post), url = url))
         sendInstance.send_message('me', message)
     if len(posts_to_email) == 0:
-        message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Nothing found', 'Will keep looking.')
+        message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Nothing new found', 'Will keep looking.')
         sendInstance.send_message('me', message)
     previous_last_seen = current_last_seen
     iterations += 1
-    time.sleep(5)
+    time.sleep(minutes_between_searches * 60)
 message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Searching completed', 'Restart program to resume searching')
 sendInstance.send_message('me', message)
 
