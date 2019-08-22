@@ -26,8 +26,9 @@ service = discovery.build('gmail', 'v1', http=http)
 
 import send_email
 import craigslist_get as cl
+url = 'https://sfbay.craigslist.org/search/eby/fua'
 
-posts = cl.get_posts_on_page('https://sfbay.craigslist.org/search/eby/fua')
+posts = cl.get_posts_on_page(url)
 for x in range(len(posts)):
     print(cl.get_price(posts[x]))
 
