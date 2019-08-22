@@ -3,7 +3,7 @@ import craigslist_get as cl
 
 def check_post(posts_to_email, post, items_budgets):
     for item in items_budgets:
-        if item in cl.get_description(post) and cl.get_price(post) <= items_budgets[item]:
+        if item in cl.get_description(post).lower() and cl.get_price(post) <= items_budgets[item]:
             posts_to_email.append(post)
             break
     return posts_to_email
