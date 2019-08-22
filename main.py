@@ -41,7 +41,8 @@ while True:
     if another == "N":
         break
 iterations = 0
-for x in range(10):
+previous_last_seen = 0
+for x in range(5):
     posts = cl.get_posts_on_page(url)
     posts_to_email = []
     current_last_seen = posts[0]
@@ -53,7 +54,7 @@ for x in range(10):
                     break
     else:
         for x in range(len(posts)):
-            if posts[x].equals(previous_last_seen):
+            if posts[x] == previous_last_seen:
                 break
             for item in items_budgets:
                 if item in cl.get_description(posts[x]) and cl.get_price(posts[x]) < items_budgets[item]:
@@ -63,5 +64,6 @@ for x in range(10):
         message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', cl.get_description(post), 'The price is ${price} at {url}'.format(price = cl.get_price(post), url = url))
         sendInstance.send_message('me', message)
     previous_last_seen = current_last_seen
-    time.sleep(60)
+    iterations += 1
+    time.sleep(5)
 
