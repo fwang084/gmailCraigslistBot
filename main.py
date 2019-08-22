@@ -42,11 +42,12 @@ while True:
     another = input("Enter Y to enter another item, N if you are done.")
     if another == "N":
         break
+recipient = 'frankw084084@gmail.com' #email to receive updates/alerts
 duration = float(input("How many hours do you want to search for?"))
-minutes_between_searches = 30
+minutes_between_searches = 30 #time between each search
 repetitions = round(duration * 60 / minutes_between_searches)
-iterations = 0
-previous_last_seen = 0
+iterations = 0 #variable created to aid in duplicate post checking
+previous_last_seen = 0 #variable created to aid in duplicate post checking
 for x in range(repetitions):
     posts = cl.get_posts_on_page(url)
     posts_to_email = []
@@ -64,6 +65,6 @@ for x in range(repetitions):
     previous_last_seen = current_last_seen
     iterations += 1
     time.sleep(60 * minutes_between_searches)
-message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Searching completed', 'Restart program to resume searching')
+message = sendInstance.create_message('frankw084084@gmail.com', recipient, 'Searching completed', 'Restart program to resume searching')
 sendInstance.send_message('me', message)
 
