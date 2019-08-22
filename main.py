@@ -27,25 +27,41 @@ service = discovery.build('gmail', 'v1', http=http)
 
 import send_email
 import craigslist_get as cl
-
+import time
 url = 'https://sfbay.craigslist.org/search/eby/fua'
+sendInstance = send_email.send_email(service)
 
 #Getting user input for interested items
 items_budgets = {}
 while True:
     item = input("Type an item you are interested in: ")
-    budget = input("What is the most you are willing to spend on that item (in dollars)? ")
+    budget = int(input("What is the most you are willing to spend on that item (in dollars)? "))
     items_budgets[item] = budget
     another = input("Enter Y to enter another item, N if you are done.")
     if another == "N":
         break
-print(items_budgets)
+iterations = 0
+for x in range(10):
+    posts = cl.get_posts_on_page(url)
+    posts_to_email = []
+    current_last_seen = posts[0]
+    if iterations == 0:
+        for x in range(len(posts)):
+            for item in items_budgets:
+                if item in cl.get_description(posts[x]) and cl.get_price(posts[x]) < items_budgets[item]:
+                    posts_to_email.append(posts[x])
+                    break
+    else:
+        for x in range(len(posts)):
+            if posts[x].equals(previous_last_seen):
+                break
+            for item in items_budgets:
+                if item in cl.get_description(posts[x]) and cl.get_price(posts[x]) < items_budgets[item]:
+                    posts_to_email.append(posts[x])
+                    break
+    for post in posts_to_email:
+        message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', cl.get_description(post), 'The price is ${price} at {url}'.format(price = cl.get_price(post), url = url))
+        sendInstance.send_message('me', message)
+    previous_last_seen = current_last_seen
+    time.sleep(60)
 
-"""posts = cl.get_posts_on_page(url)
-for x in range(len(posts)):
-    print(cl.get_price(posts[x]))"""
-
-
-"""sendInstance = send_email.send_email(service)
-message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Test', 'Hello')
-sendInstance.send_message('me', message)"""
