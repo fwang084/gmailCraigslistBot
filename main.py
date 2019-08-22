@@ -27,6 +27,7 @@ service = discovery.build('gmail', 'v1', http=http)
 
 import send_email
 import craigslist_get as cl
+import util as util
 import time
 
 url = 'https://sfbay.craigslist.org/search/eby/fua'
@@ -52,21 +53,13 @@ for x in range(repetitions):
     current_last_seen = posts[0]
     if iterations == 0:
         for x in range(len(posts)):
-            for item in items_budgets:
-                if item in cl.get_description(posts[x]) and cl.get_price(posts[x]) < items_budgets[item]:
-                    posts_to_email.append(posts[x])
-                    break
+            posts_to_email = util.check_post(posts_to_email, post[x], items_budgets)
     else:
         for x in range(len(posts)):
             if posts[x] == previous_last_seen:
                 break
-            for item in items_budgets:
-                if item in cl.get_description(posts[x]) and cl.get_price(posts[x]) < items_budgets[item]:
-                    posts_to_email.append(posts[x])
-                    break
-    for post in posts_to_email:
-        message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', cl.get_description(post), 'The price is ${price} at {url}'.format(price = cl.get_price(post), url = url))
-        sendInstance.send_message('me', message)
+                posts_to_email = util.check_post(posts_to_email, post[x], items_budgets)
+    util.send_posts(posts_to_email, sendInstance, url)
     if len(posts_to_email) == 0:
         message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Nothing new found', 'Will keep looking.')
         sendInstance.send_message('me', message)
