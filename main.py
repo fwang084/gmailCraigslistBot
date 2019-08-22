@@ -5,6 +5,7 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
+
 from oauth2client import tools
 
 import httplib2
@@ -26,11 +27,23 @@ service = discovery.build('gmail', 'v1', http=http)
 
 import send_email
 import craigslist_get as cl
+
 url = 'https://sfbay.craigslist.org/search/eby/fua'
 
-posts = cl.get_posts_on_page(url)
+#Getting user input for interested items
+items_budgets = {}
+while True:
+    item = input("Type an item you are interested in: ")
+    budget = input("What is the most you are willing to spend on that item (in dollars)? ")
+    items_budgets[item] = budget
+    another = input("Enter Y to enter another item, N if you are done.")
+    if another == "N":
+        break
+print(items_budgets)
+
+"""posts = cl.get_posts_on_page(url)
 for x in range(len(posts)):
-    print(cl.get_price(posts[x]))
+    print(cl.get_price(posts[x]))"""
 
 
 """sendInstance = send_email.send_email(service)
