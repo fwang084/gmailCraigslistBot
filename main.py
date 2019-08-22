@@ -58,11 +58,9 @@ for x in range(repetitions):
         for x in range(len(posts)):
             if posts[x] == previous_last_seen:
                 break
-                posts_to_email = util.check_post(posts_to_email, post[x], items_budgets)
+            posts_to_email = util.check_post(posts_to_email, post[x], items_budgets)
     util.send_posts(posts_to_email, sendInstance, url)
-    if len(posts_to_email) == 0:
-        message = sendInstance.create_message('frankw084084@gmail.com', 'frankw084084@gmail.com', 'Nothing new found', 'Will keep looking.')
-        sendInstance.send_message('me', message)
+    util.check_for_failure(posts_to_email, sendInstance)
     previous_last_seen = current_last_seen
     iterations += 1
     time.sleep(minutes_between_searches * 60)
