@@ -28,8 +28,8 @@ service = discovery.build('gmail', 'v1', http=http)
 import send_email
 import craigslist_get as cl
 import time
+
 url = 'https://sfbay.craigslist.org/search/eby/fua'
-minutes_between_searches = 30
 sendInstance = send_email.send_email(service)
 
 #Getting user input for interested items
@@ -42,10 +42,11 @@ while True:
     if another == "N":
         break
 duration = float(input("How many hours do you want to search for?"))
-halfHours = round(duration * 2)
+minutes_between_searches = 30
+repetitions = round(duration * 60 / minutes_between_searches)
 iterations = 0
 previous_last_seen = 0
-for x in range(halfHours):
+for x in range(repetitions):
     posts = cl.get_posts_on_page(url)
     posts_to_email = []
     current_last_seen = posts[0]
